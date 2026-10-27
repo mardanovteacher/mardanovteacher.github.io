@@ -1061,7 +1061,7 @@ else{let a={};try{a=JSON.parse(localStorage.getItem("mt-accounts")||"{}")||{}}ca
 if(mode==="up"){if(a[em])msg(d.e_exists);else{a[em]={name:nm,h};localStorage.setItem("mt-accounts",JSON.stringify(a));done({email:em,name:nm,provider:"local"})}}
 else if(!a[em]||a[em].h!==h)msg(d.e_bad);else done({email:em,name:a[em].name,provider:"local"})}
 }catch(err){msg(fe(err))}busy(false)};
-q("#au-google").onclick=async()=>{const d=L();msg("");busy(true);try{const F=await getFb();if(!F)msg(d.e_g);else{const r=await F.m.signInWithPopup(F.auth,new F.m.GoogleAuthProvider());done({email:r.user.email,name:r.user.displayName,provider:"google",photo:r.user.photoURL||""})}}catch(err){if(!/popup-closed|cancelled/.test(String(err&&err.code)))msg(L().e_net)}busy(false)};
+q("#au-google").onclick=async()=>{const d=L();msg("");busy(true);try{const F=await getFb();if(!F)msg(d.e_g);else{const r=await F.m.signInWithPopup(F.auth,new F.m.GoogleAuthProvider());done({email:r.user.email,name:r.user.displayName,provider:"google",photo:r.user.photoURL||""})}}catch(err){if(!/popup-closed|cancelled/.test(String(err&&err.code)))msg(L().e_net+" ["+String(err&&err.code||err)+"]")}busy(false)};
 q("#au-forgot").onclick=async()=>{const d=L(),em=q("#au-email").value.trim();if(!/^\S+@\S+\.\S+$/.test(em))return msg(d.e_email);try{const F=await getFb();if(!F)return msg(d.e_g);await F.m.sendPasswordResetEmail(F.auth,em);msg(d.ok_reset,true)}catch(err){msg(fe(err))}};
 q("#au-out").onclick=async()=>{try{const F=FIREBASE_CONFIG?await getFb():null;if(F)await F.m.signOut(F.auth)}catch(e){}try{localStorage.removeItem("mt-user")}catch(e){}location.reload()};
 txt();who();q("#auth").hidden=!root.classList.contains("needauth");
